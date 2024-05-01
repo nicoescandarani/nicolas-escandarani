@@ -15,7 +15,6 @@ describe('HeaderInterceptor', () => {
           provide: HttpHandler,
           useValue: {
             handle: (request: HttpRequest<any>) => {
-              // You can customize this part to further control the test outcome
               return of(new HttpResponse({ status: 200, body: { data: 'data' }}));
             }
           }
@@ -35,7 +34,7 @@ describe('HeaderInterceptor', () => {
     const dummyRequest = new HttpRequest('GET', '/test-url');
     const handleSpy = spyOn(mockHttpHandler, 'handle').and.callThrough();
 
-    // Execute the interceptor
+    // Execute the interceptor.
     interceptor.intercept(dummyRequest, mockHttpHandler).subscribe(event => {
       expect(event).toBeTruthy();
       expect(event instanceof HttpResponse).toBeTruthy();

@@ -49,7 +49,7 @@ export class ProductComponent extends AutoUnsubscribeComponent implements OnInit
     this.fg = this.fb.group({
       id: [{
         value: passedProduct ? passedProduct.id : '',
-        disabled: !!passedProduct // Deshabilitar si existe passedProduct
+        disabled: !!passedProduct // Disable if passedProduct exists.
       }, [
         Validators.required,
         Validators.minLength(3),
@@ -69,12 +69,12 @@ export class ProductComponent extends AutoUnsubscribeComponent implements OnInit
       date_release: [passedProduct ? this.formatDateFromISO(passedProduct.date_release) : '', [Validators.required, this.validateReleaseDate.bind(this)]]
     });
 
-    // Actualizar date_revision inmediatamente si passedProduct contiene una fecha de lanzamiento
+    // Update date_revision immediately if passedProduct contains a release date.
     if (passedProduct && passedProduct.date_release) {
       this.updateDateRevision(this.formatDateFromISO(passedProduct.date_release));
     }
 
-    // Escuchar cambios en date_release
+    // Listen for changes in date_release.
     this.fg.get('date_release')?.valueChanges.pipe(
       takeUntil(this.destroy$)
     ).subscribe(date => {
@@ -85,9 +85,9 @@ export class ProductComponent extends AutoUnsubscribeComponent implements OnInit
   updateDateRevision(date: string): void {
     if (date) {
       const oneYearLater = this.calculateOneYearLater(date);
-      this.date_revision = oneYearLater; // Formatea a DD/MM/YYYY
+      this.date_revision = oneYearLater; // Parse to DD/MM/YYYY.
     } else {
-      this.date_revision = ''; // Limpiar si la fecha no es válida
+      this.date_revision = ''; // Clear if date is invalid.
     }
   }
 
@@ -114,7 +114,7 @@ export class ProductComponent extends AutoUnsubscribeComponent implements OnInit
     return '';
   }
 
-  // Convertir una fecha ISO a formato DD/MM/YYYY
+  // Convert an ISO date to DD/MM/YYYY format.
   formatDateFromISO(isoDateStr: string): string {
     const date = new Date(isoDateStr);
     if (!isNaN(date.getTime())) {
@@ -128,7 +128,7 @@ export class ProductComponent extends AutoUnsubscribeComponent implements OnInit
 
   formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Meses en JavaScript son 0-indexados
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   }
@@ -137,22 +137,21 @@ export class ProductComponent extends AutoUnsubscribeComponent implements OnInit
     const parts = dateStr.split('/');
     if (parts.length === 3) {
         const day = parseInt(parts[0], 10);
-        const month = parseInt(parts[1], 10) - 1; // Ajustar porque los meses en JavaScript son de 0 a 11
+        const month = parseInt(parts[1], 10) - 1;
         const year = parseInt(parts[2], 10);
 
-        // Crear un objeto Date con año, mes y día
         const date = new Date(year, month, day);
-        // Comprobación adicional para evitar fechas inválidas como 31 de febrero
+        // Additional check to avoid invalid dates like February 31st.
         if (date.getFullYear() === year && date.getMonth() === month && date.getDate() === day) {
             return date;
         }
     }
-    return null; // Retornar null si la fecha es inválida
+    return null; // Return null if the date is invalid.
   }
 
   validateReleaseDate(control: AbstractControl): ValidationErrors | null {
     const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0); // Normalizar la fecha actual para eliminar la hora
+    currentDate.setHours(0, 0, 0, 0); // Normalize current date to remove time.
 
     if (!control.value) {
         return { dateInvalid: 'La fecha es requerida.' };
@@ -178,7 +177,7 @@ export class ProductComponent extends AutoUnsubscribeComponent implements OnInit
         if (!value) return of(null);
         return this.httpService.checkIdAvailability(value).pipe(
           map(isTaken => isTaken ? { idTaken: 'Este ID ya está en uso.' } : null),
-          catchError(() => of(null))  // Assuming simple error handling
+          catchError(() => of(null))  // Assuming simple error handling.
         );
       })
     );

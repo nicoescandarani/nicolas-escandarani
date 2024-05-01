@@ -18,8 +18,8 @@
           </td>
           <td>{{ item.name }}</td>
           <td>{{ item.description }}</td>
-          <td>{{ item.date_release | date }}</td>
-          <td>{{ item.date_revision | date }}</td>
+          <td>{{ item.date_release | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ item.date_revision | date: 'dd/MM/yyyy' }}</td>
           <td>
             <button (click)="selectItem(i)">
               <img class="menu-icon" src="assets/icons/menu.svg" alt="Abrir menu">

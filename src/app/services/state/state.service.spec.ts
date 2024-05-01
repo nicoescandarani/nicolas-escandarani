@@ -30,12 +30,12 @@ describe('StateService', () => {
   });
 
   it('should toggle isLoading correctly', (done: DoneFn) => {
-    // Initial state is false as checked in previous test
-    service.isLoadingSet = true; // Set to true
+    // Initial state is false as checked in previous test.
+    service.isLoadingSet = true; // Set to true.
     service.isLoading$.pipe(take(1)).subscribe(isLoading => {
       expect(isLoading).toBeTrue();
 
-      service.isLoadingSet = false; // Set back to false
+      service.isLoadingSet = false; // Set back to false.
       service.isLoading$.pipe(take(1)).subscribe(isLoadingAgain => {
         expect(isLoadingAgain).toBeFalse();
         done();

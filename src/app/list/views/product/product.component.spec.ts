@@ -68,7 +68,7 @@ describe('ProductComponent', () => {
   it('should call the correct service method when submitting form based on edit/create mode', () => {
     component.handleResetForm();
     component.handleSubmitForm();
-    expect(mockHttpService.createProduct).toHaveBeenCalledTimes(0); // Ensure no calls if form is invalid
+    expect(mockHttpService.createProduct).toHaveBeenCalledTimes(0); // Ensure no calls if form is invalid.
 
     component.fg.setValue({
       id: '2',

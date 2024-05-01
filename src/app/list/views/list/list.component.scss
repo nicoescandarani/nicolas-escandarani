@@ -63,6 +63,32 @@
   align-items: center;
 }
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    margin-right: 20px;
+  }
+
+  button {
+    margin-right: 20px;
+    background-color: #cccccc;
+    border-radius: var(--border-radius);
+    padding: 10px;
+
+    &:disabled {
+      background-color: #f0f0f0;
+      cursor: not-allowed;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
+
 select {
   padding: 4px 12px;
   border-radius: var(--border-radius);

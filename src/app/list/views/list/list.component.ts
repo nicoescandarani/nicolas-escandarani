@@ -15,9 +15,13 @@ export class ListComponent extends AutoUnsubscribeComponent {
   amountOptions: ProductsAmount[] = this.getEnumValues();
   products: Product[] = [];
   shownProducts: Product[] = [];
-  productsAmount: ProductsAmount = ProductsAmount.FIVE; // Normalmente esta variable se pasaría al servicio para traer solamente la cantidad de productos que se necesitan pero no existe esa funcionalidad y no tengo acceso al proyecto entonces simplemente traigo todo y muestro la cantidad deseada de productos.
+  totalFilteredProducts: Product[] = [];
+  productsAmount: ProductsAmount = ProductsAmount.FIVE; // Normally this variable would be passed to the service to bring only the amount of products needed but that functionality does not exist and I do not have access to the project so I simply bring everything and show the desired amount of products.
   selectedProductId: string = '';
   filterText: string = '';
+
+  currentPage: number = 1;
+  totalPages: number = 0;
 
   constructor(private httpService: HttpService, private router: Router, private stateService: StateService) {
     super();
@@ -27,25 +31,31 @@ export class ListComponent extends AutoUnsubscribeComponent {
     this.getProducts();
   }
 
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.updateShownProducts();
+  }
+
+  updateShownProducts(): void {
+    const startIndex = (this.currentPage - 1) * this.productsAmount;
+    const endIndex = startIndex + this.productsAmount;
+    this.shownProducts = this.totalFilteredProducts.slice(startIndex, endIndex);
+  }
+
   filterProducts(): void {
-    let filteredProducts = this.products;
-
-    // Filtrar productos por texto
-    if (this.filterText) {
-      filteredProducts = filteredProducts.filter(product =>
-        product.name.toLowerCase().includes(this.filterText.toLowerCase()) ||
-        product.description.toLowerCase().includes(this.filterText.toLowerCase())
-      );
-    }
-
-    // Luego ajustar la cantidad de productos mostrados basado en `productsAmount`
-    this.shownProducts = this.setProductsByAmount(filteredProducts, this.productsAmount);
+    this.totalFilteredProducts = this.products.filter(product =>
+      product.name.toLowerCase().includes(this.filterText.toLowerCase()) ||
+      product.description.toLowerCase().includes(this.filterText.toLowerCase())
+    );
+    this.totalPages = Math.ceil(this.totalFilteredProducts.length / this.productsAmount);
+    this.currentPage = 1; // Reset to first page after filtering.
+    this.updateShownProducts();
   }
 
   getProducts() {
     const productsSubscription$ = this.httpService.getProducts().subscribe(products => {
       this.products = products;
-      this.filterProducts();  // Refiltrar productos después de obtenerlos
+      this.filterProducts();  // Refilter products after getting them.
     });
     this.subscriptions.push(productsSubscription$);
   }
@@ -59,7 +69,7 @@ export class ListComponent extends AutoUnsubscribeComponent {
 
   onAmountChange(newAmount: number): void {
     this.productsAmount = newAmount as ProductsAmount;
-    this.filterProducts();  // Esto asegura que los productos se refiltren y reajusten
+    this.filterProducts();  // This ensures that the products are refiltered and readjusted.
   }
 
   setProductsByAmount(products: Product[], amount: number): Product[] {

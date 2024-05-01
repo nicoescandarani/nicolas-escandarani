@@ -25,10 +25,10 @@ describe('ListComponent', () => {
     fixture = TestBed.createComponent(ListComponent);
     component = fixture.componentInstance;
 
-    // Mock response for getProducts
+    // Mock response for getProducts.
     mockHttpService.getProducts.and.returnValue(of([{ id: '1', name: 'Product 1', description: 'Description 1', logo: 'a', date_release: '2024-05-02', date_revision: '2025-05-02'}]));
 
-    fixture.detectChanges();  // trigger initial data binding
+    fixture.detectChanges();  // trigger initial data binding.
   });
 
   it('should create', () => {
@@ -106,6 +106,6 @@ describe('ListComponent', () => {
     component.handleConfirmDelete();
 
     expect(deleteSpy).toHaveBeenCalledWith('1');
-    expect(mockHttpService.getProducts).toHaveBeenCalledTimes(2);  // Called again after deletion
+    expect(mockHttpService.getProducts).toHaveBeenCalledTimes(2);  // Called again after deletion.
   });
 });
