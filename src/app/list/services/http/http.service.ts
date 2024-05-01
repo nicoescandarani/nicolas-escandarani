@@ -11,18 +11,6 @@ import { environment } from 'src/environments/environment';
 export class HttpService {
   constructor(private http: HttpClient, private stateService: StateService) { }
 
-  async getProductsPromise(): Promise<Product[]> {
-    try {
-      const response = await firstValueFrom(
-        this.http.get<any>(`${environment.API_URL_BASE}/bp/products`)
-        );
-        return response;
-    } catch (e) {
-      console.warn('Error: ', e);
-      return [];
-    }
-  }
-
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${environment.API_URL_BASE}/bp/products`).pipe(
       catchError(error => {

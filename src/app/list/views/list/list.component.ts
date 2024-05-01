@@ -63,6 +63,7 @@ export class ListComponent extends AutoUnsubscribeComponent {
   handleCreateProduct(): void {
     this.router.navigate(['/list/create']);
   }
+
   getEnumValues(): number[] {
     return Object.values(ProductsAmount).filter(value => typeof value === 'number') as number[];
   }
@@ -95,8 +96,6 @@ export class ListComponent extends AutoUnsubscribeComponent {
   }
 
   handleEditProduct(id: string): void {
-    console.log('Edit product with id:', id);
-
     this.router.navigate([`/list/product/${id}`]);
   }
 

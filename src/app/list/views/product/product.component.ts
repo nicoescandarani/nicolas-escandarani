@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpService } from '../../services/http/http.service';
-import { Observable, Subject, of } from 'rxjs';
+import { Observable, Subject, Subscription, of } from 'rxjs';
 import { debounceTime, switchMap, map, catchError, takeUntil } from 'rxjs/operators';
 import { Product } from '../../interfaces/product';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,15 +13,15 @@ import { StateService } from 'src/app/services/state/state.service';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent extends AutoUnsubscribeComponent implements OnInit {
+export class ProductComponent implements OnInit {
   fg!: FormGroup;
   date_revision: string = '';
   private destroy$ = new Subject<void>();
   passedProductId: string = '';
   product: Product | null = null;
+  subscriptions: Subscription[] = [];
 
   constructor(private fb: FormBuilder, private httpService: HttpService, private router: Router, private activatedRoute: ActivatedRoute, private stateService: StateService) {
-    super();
     const activatedRouteSubscription$ = this.activatedRoute.params
       .pipe(
         switchMap(({id}) => {
@@ -252,7 +252,8 @@ export class ProductComponent extends AutoUnsubscribeComponent implements OnInit
     }
   }
 
-  override ngOnDestroy(): void {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
     this.destroy$.next();
     this.destroy$.complete();
   }

@@ -93,3 +93,31 @@
   background-color: var(--text-color);
   margin-bottom: 16px;
 }
+
+@media (max-width: 380px) {
+  .product {
+    &__inputs-wrapper {
+      flex-direction: column;
+      margin-bottom: 0;
+    }
+
+    &__input-wrapper {
+      margin-right: 0;
+      margin-bottom: 24px;
+    }
+
+    &__buttons-wrapper {
+      max-width: none;
+      justify-content: space-between;
+    }
+
+    &__button-wrapper {
+      max-width: none;
+      margin-right: 16px;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+}

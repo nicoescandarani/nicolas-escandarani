@@ -22,10 +22,6 @@ export class TableComponent {
     this.selectedItem !== id ? this.selectedItem = id : this.selectedItem = null;
   }
 
-  openMiniMenu(index: number): void {
-    console.log('Opening mini menu for item at index', index);
-  }
-
   handleEditItem(id: string): void {
     this.editItem.emit(id);
     this.selectedItem = null;
