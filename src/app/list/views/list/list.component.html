@@ -1,0 +1,66 @@
+<div class="list">
+  <!-- Header -->
+  <div class="list__header">
+    <div class="list__searchbar-wrapper">
+      <input [ngClass]="{'disabled': shownProducts.length === 0}" [disabled]="shownProducts.length === 0" type="text" placeholder="Search..." [(ngModel)]="filterText" (ngModelChange)="filterProducts()">
+    </div>
+    <div class="list__create-button-wrapper">
+      <ui-button
+        [color]="'primary'"
+        [type]="'button'"
+        [disabled]="false"
+        (click)="handleCreateProduct()"
+      >Agregar</ui-button>
+    </div>
+  </div>
+  <div class="table-container-wrapper">
+    <div *ngIf="shownProducts.length > 0; else emptyState">
+      <!-- Table -->
+      <ui-table
+        [items]="shownProducts"
+        [minWidth]="900"
+        (editItem)="handleEditProduct($event)"
+        (deleteItem)="handleDeleteProduct($event)"
+      ></ui-table>
+
+      <!-- Products amount -->
+      <div class="table-container-wrapper__footer">
+        <div class="table-container-wrapper__amount-selected">
+          <span>{{ shownProducts.length < productsAmount ? shownProducts.length : productsAmount }} resultados</span>
+        </div>
+        <div class="table-container-wrapper__select-wrapper">
+          <select [(ngModel)]="productsAmount" (ngModelChange)="onAmountChange($event)">
+            <option *ngFor="let amount of amountOptions" [value]="amount">
+              {{ amount }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ui-modal *ngIf="selectedProductId">
+  <h4 class="modal__title">¿Estás seguro de que deseas eliminar el producto <span>{{ selectedProductId }}</span>?</h4>
+  <div class="modal__buttons-wrapper">
+    <div class="modal__button-wrapper">
+      <ui-button
+        [color]="'secondary'"
+        [type]="'button'"
+        (onClick)="handleCancelDelete()"
+      >Cancelar</ui-button>
+    </div>
+    <div class="modal__button-wrapper">
+      <ui-button
+        [color]="'primary'"
+        [type]="'button'"
+        (onClick)="handleConfirmDelete()"
+      >Confirmar</ui-button>
+    </div>
+  </div>
+</ui-modal>
+<div (click)="handleCancelDelete()" *ngIf="selectedProductId" class="modal-overlay"></div>
+
+<ng-template #emptyState>
+  <h4>No se encuentran productos bancarios actualmente</h4>
+</ng-template>

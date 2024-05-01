@@ -1,0 +1,32 @@
+.header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: var(--pure-white);
+  height: var(--header-height);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__img-wrapper {
+    display: flex;
+    margin-right: 18px;
+
+    img {
+      height: 46px;
+    }
+  }
+}
+
+h1 {
+  font-size: 32px;
+  color: var(--secondary-text-color);
+}

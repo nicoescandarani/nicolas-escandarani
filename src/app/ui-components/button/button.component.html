@@ -1,0 +1,17 @@
+<button
+  class="button"
+  [type]="type"
+  [ngStyle]="{
+    'font-weight': fontWeight
+  }"
+  [ngClass]="
+    {
+      'button--secondary': color === 'secondary',
+      'button--disabled': disabled
+    }
+  "
+  [disabled]="disabled"
+  (click)="click()"
+>
+  <ng-content></ng-content>
+</button>

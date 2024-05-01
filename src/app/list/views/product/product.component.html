@@ -1,0 +1,67 @@
+<div class="product">
+  <div class="product__wrapper">
+    <div class="product__title">
+      <h2>Formulario de registro</h2>
+    </div>
+    <div class="separator"></div>
+
+    <div class="product__form-wrapper">
+      <form [formGroup]="fg">
+        <div class="product__inputs-wrapper">
+          <div [ngClass]="{'product__input-wrapper--error': !fg.get('id')?.valid && fg.get('id')?.touched}" class="product__input-wrapper">
+            <label for="id">ID</label>
+            <input id="id" formControlName="id" type="text" minlength="3" maxlength="10">
+            <span *ngIf="!fg.get('id')?.valid && fg.get('id')?.touched">{{ getErrorMessage('id') }}</span>
+          </div>
+          <div [ngClass]="{'product__input-wrapper--error': !fg.get('name')?.valid && fg.get('name')?.touched}" class="product__input-wrapper">
+            <label for="name">Nombre</label>
+            <input id="name" formControlName="name" type="text" minlength="5" maxlength="100">
+            <span *ngIf="!fg.get('name')?.valid && fg.get('name')?.touched">{{ getErrorMessage('name') }}</span>
+          </div>
+        </div>
+        <div [ngClass]="{'product__input-wrapper--error': !fg.get('description')?.valid && fg.get('description')?.touched}" class="product__inputs-wrapper">
+          <div class="product__input-wrapper">
+            <label for="description">Descripción</label>
+            <input id="description" formControlName="description" type="text" minlength="10" maxlength="200">
+            <span *ngIf="!fg.get('description')?.valid && fg.get('description')?.touched">{{ getErrorMessage('description') }}</span>
+          </div>
+          <div [ngClass]="{'product__input-wrapper--error': !fg.get('logo')?.valid && fg.get('logo')?.touched}" class="product__input-wrapper">
+            <label for="logo">Logo</label>
+            <input id="logo" formControlName="logo" type="text">
+            <span *ngIf="!fg.get('logo')?.valid && fg.get('logo')?.touched">{{ getErrorMessage('logo') }}</span>
+          </div>
+        </div>
+        <div class="product__inputs-wrapper">
+          <div [ngClass]="{'product__input-wrapper--error': !fg.get('date_release')?.valid && fg.get('date_release')?.touched}" class="product__input-wrapper">
+            <label for="date_release">Fecha de Liberación</label>
+            <input id="date_release" formControlName="date_release" type="text" placeholder="DD/MM/AAAA">
+            <span *ngIf="!fg.get('date_release')?.valid && fg.get('date_release')?.touched">{{ getErrorMessage('date_release') }}</span>
+          </div>
+          <div class="product__input-wrapper">
+            <label for="date_revision">Fecha de Revisión</label>
+            <input id="date_revision" type="text" disabled [value]="date_revision">
+          </div>
+        </div>
+
+        <div class="product__buttons-wrapper">
+          <div class="product__button-wrapper">
+            <ui-button
+              [color]="'secondary'"
+              [type]="'button'"
+              [disabled]="!fg.dirty || fg.pristine"
+              (onClick)="handleResetForm()"
+            >Reiniciar</ui-button>
+          </div>
+          <div class="product__button-wrapper">
+            <ui-button
+              [color]="'primary'"
+              [type]="'submit'"
+              [disabled]="!fg.valid"
+              (onClick)="handleSubmitForm()"
+            >Enviar</ui-button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

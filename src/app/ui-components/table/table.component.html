@@ -1,0 +1,48 @@
+<div class="table-wrapper table-margin">
+  <div class="table-content-wrapper">
+    <table [ngStyle]="{'min-width.px': minWidth ? minWidth : 'none'}">
+      <thead>
+        <tr>
+          <th>Logo</th>
+          <th>Nombre del producto</th>
+          <th>Descripción</th>
+          <th>Fecha de liberación</th>
+          <th>Fecha de reestructuración</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items; let i = index">
+          <td>
+            <img class="logo" [src]="item.logo" [alt]="item.name">
+          </td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.date_release | date }}</td>
+          <td>{{ item.date_revision | date }}</td>
+          <td>
+            <button (click)="selectItem(i)">
+              <img class="menu-icon" src="assets/icons/menu.svg" alt="Abrir menu">
+            </button>
+            <div *ngIf="selectedItem === i" class="minimenu">
+              <div class="minimenu__button-wrapper">
+                <ui-button
+                  [color]="'secondary'"
+                  [type]="'button'"
+                  (onClick)="handleEditItem(item.id)"
+                >Editar</ui-button>
+              </div>
+              <div class="minimenu__button-wrapper">
+                <ui-button
+                  [color]="'primary'"
+                  [type]="'button'"
+                  (onClick)="handleDeleteItem(item.id)"
+                >Eliminar</ui-button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

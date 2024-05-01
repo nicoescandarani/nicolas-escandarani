@@ -1,0 +1,30 @@
+.button {
+  width: 100%;
+  background-color: var(--button-bg-color);
+  padding: 16px;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  font-weight: 600;
+
+  &--secondary {
+    background-color: var(--button-bg-color-secondary);
+    border: var(--main-color) 1px solid;
+    color: var(--black);
+
+    &.button--disabled {
+      background-color: transparent;
+      opacity: 0.5;
+      color: var(--black);
+    }
+  }
+
+  &--tertiary {
+    background-color: var(--accent-color);
+    color: var(--black);
+  }
+
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
