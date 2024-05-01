@@ -4,6 +4,7 @@ import { Product } from '../../interfaces/product';
 import { AutoUnsubscribeComponent } from 'src/app/helpers/auto-unsubscribe/auto-unsubscribe.component';
 import { ProductsAmount } from '../../enums/products-amount';
 import { Router } from '@angular/router';
+import { StateService } from 'src/app/services/state/state.service';
 
 @Component({
   selector: 'app-list',
@@ -18,7 +19,7 @@ export class ListComponent extends AutoUnsubscribeComponent {
   selectedProductId: string = '';
   filterText: string = '';
 
-  constructor(private httpService: HttpService, private router: Router) {
+  constructor(private httpService: HttpService, private router: Router, private stateService: StateService) {
     super();
   }
 
@@ -73,6 +74,11 @@ export class ListComponent extends AutoUnsubscribeComponent {
     if (this.selectedProductId) {
       this.httpService.deleteProduct(this.selectedProductId).subscribe(() => {
         this.getProducts();
+        this.stateService.snackbarConfigSet = {
+          message: 'Producto eliminado exitosamente.',
+          show: true,
+          type: 'success'
+        }
         this.selectedProductId = '';
       });
     }

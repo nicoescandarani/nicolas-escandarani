@@ -9,6 +9,7 @@ import { AutoUnsubscribeComponent } from './helpers/auto-unsubscribe/auto-unsubs
 import { HeaderComponent } from './standalone-components/header/header.component';
 import { SpinnerComponent } from './ui-components/spinner/spinner.component';
 import { LoadingInterceptor } from './interceptors/loading/loading.interceptor';
+import { SnackBarComponent } from './ui-components/snack-bar/snack-bar.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoadingInterceptor } from './interceptors/loading/loading.interceptor';
     AppRoutingModule,
     HttpClientModule,
     HeaderComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SnackBarComponent
   ],
   providers: [
     {

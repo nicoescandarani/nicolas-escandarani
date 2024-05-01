@@ -6,6 +6,7 @@ import { debounceTime, switchMap, map, catchError, takeUntil } from 'rxjs/operat
 import { Product } from '../../interfaces/product';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AutoUnsubscribeComponent } from 'src/app/helpers/auto-unsubscribe/auto-unsubscribe.component';
+import { StateService } from 'src/app/services/state/state.service';
 
 @Component({
   selector: 'app-product',
@@ -19,7 +20,7 @@ export class ProductComponent extends AutoUnsubscribeComponent implements OnInit
   passedProductId: string = '';
   product: Product | null = null;
 
-  constructor(private fb: FormBuilder, private httpService: HttpService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private httpService: HttpService, private router: Router, private activatedRoute: ActivatedRoute, private stateService: StateService) {
     super();
     const activatedRouteSubscription$ = this.activatedRoute.params
       .pipe(
@@ -227,14 +228,22 @@ export class ProductComponent extends AutoUnsubscribeComponent implements OnInit
       if (this.passedProductId) {
         // Modify product.
         this.httpService.editProduct(this.buildProduct(true)).subscribe(() => {
-          console.log('Producto modificado exitosamente.');
+          this.stateService.snackbarConfigSet = {
+            message: 'Producto modificado exitosamente.',
+            show: true,
+            type: 'success'
+          }
           // this.router.navigate(['/']);
         });
       } else {
         // Create product.
         const product = this.buildProduct();
         this.httpService.createProduct(product).subscribe(() => {
-            console.log('Producto creado exitosamente.');
+          this.stateService.snackbarConfigSet = {
+            message: 'Producto creado exitosamente.',
+            show: true,
+            type: 'success'
+          }
             this.handleResetForm();
             this.router.navigate(['/']);
           },

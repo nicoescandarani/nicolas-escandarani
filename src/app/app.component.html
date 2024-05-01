@@ -7,4 +7,9 @@
     <ui-spinner></ui-spinner>
   </div>
   <div *ngIf="isLoading$ | async" class="loading-overlay"></div>
+  <ui-snack-bar
+    [show]="snackbarConfig.show"
+    [message]="snackbarConfig.message"
+    [type]="snackbarConfig.type"
+  ></ui-snack-bar>
 </div>
